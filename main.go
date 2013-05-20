@@ -13,22 +13,44 @@ type CougLink struct {
 	studentsByName map[string]*Student
 	userListData []byte //Precomputed JSON for user list requests
 	newStudents chan *Student
+	updateStudent chan *Student
 }
 
 func (s *CougLink) StartSyncRoutine() {
 	for {
-		ns := <-s.newStudents
-		_,exists := s.studentsByName[ns.Name]
-		if exists {
-			continue
+		select {
+		case ns := <-s.newStudents:
+			_,exists := s.studentsByName[ns.Name]
+			if exists {
+				continue
+			}
+
+			s.studentsByName[ns.Name] = ns
+			s.students = append(s.students, ns)
+
+			buf := new(bytes.Buffer)
+			s.WriteUserList(buf)
+			s.userListData = buf.Bytes()
+		case us := <-s.updateStudent:
+			s.UpdateStudent(us)
 		}
+	}
+}
 
-		s.students = append(s.students, ns)
-
+func (s *CougLink) UpdateStudent(us *Student) {
+	stu, ok := s.studentsByName[us.Name]
+	if !ok {
+		log.Println("this is awkward.")
+		//Student doesnt actually exist somehow
+		//This is really just a sanity check
+		return
+	}
+	if stu.Update(us) {
 		buf := new(bytes.Buffer)
 		s.WriteUserList(buf)
 		s.userListData = buf.Bytes()
 	}
+
 }
 
 func (s *CougLink) WriteUserList(w io.Writer) {
@@ -39,33 +61,39 @@ func (s *CougLink) WriteUserList(w io.Writer) {
 
 //Respond to requests about users
 func (s *CougLink) UserRequest(w http.ResponseWriter, r *http.Request) {
-	log.Println("User req!")
-	w.Write(s.userListData)
+	switch r.Method {
+	case "GET":
+		log.Println("User req!")
+		w.Write(s.userListData)
+	case "POST":
+		//We need to somehow authenticate for this
+		log.Println("New User Req!")
+		dec := json.NewDecoder(r.Body)
+
+		var newStudent Student
+		dec.Decode(&newStudent)
+		log.Println(newStudent)
+		s.newStudents <- &newStudent
+	case "PUT":
+		//We need to somehow authenticate for this
+		log.Println("Update user request!")
+		dec := json.NewDecoder(r.Body)
+
+		var studentInfo Student
+		dec.Decode(&studentInfo)
+		log.Println(studentInfo)
+		s.updateStudent <- &studentInfo
+	}
 }
-
-func (s *CougLink) NewUser(w http.ResponseWriter, r *http.Request) {
-	log.Println("New User Req!")
-	dec := json.NewDecoder(r.Body)
-	
-	var newStudent Student
-	dec.Decode(&newStudent)
-	log.Println(newStudent)
-	s.newStudents <- &newStudent
-}
-
-
-func (s *CougLink) ServeHtml(w http.ResponseWriter, r *http.Request) {
-}
-
 
 func main() {
 	cl := new(CougLink)
 	cl.newStudents = make(chan *Student)
+	cl.updateStudent = make(chan *Student)
+	cl.studentsByName = make(map[string]*Student)
 	go cl.StartSyncRoutine()
 
 	http.HandleFunc("/users", cl.UserRequest)
-	http.HandleFunc("/new", cl.NewUser)
-	http.HandleFunc("/update", cl.UpdateUser)
 	http.Handle("/", http.FileServer(http.Dir("html")))
 	http.ListenAndServe(":8080", nil)
 }
