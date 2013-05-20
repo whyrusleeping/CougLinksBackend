@@ -4,13 +4,17 @@ import (
 	"net/http"
 )
 
-func main() {
+func StartServer(host string) {
 	cl := New()
 
 	//Set up http listeners
 	http.HandleFunc("/users", cl.UserRequest)
 	http.Handle("/", http.FileServer(http.Dir("html")))
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(host, nil)
+}
+
+func main() {
+	StartServer(":8080")
 }
 
 /*

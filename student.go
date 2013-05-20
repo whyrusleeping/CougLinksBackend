@@ -29,6 +29,17 @@ func NewStudent(name, resume, skills, major, minor, interests, email string) *St
 	return s
 }
 
+func (s *Student) Equal(o *Student) bool {
+	return s.Name == o.Name &&
+			s.Major == o.Major &&
+			s.Minor == o.Minor &&
+			s.Resume == o.Resume &&
+			s.Skills == o.Skills &&
+			s.Interests == o.Interests &&
+			s.Email == o.Email &&
+			s.UUID == o.UUID
+}
+
 //Update student with the non-blank values in 'us'
 //return true if changes were made
 func (stu *Student) Update(us *Student) bool {

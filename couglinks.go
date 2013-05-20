@@ -68,16 +68,16 @@ func (s *CougLink) UpdateStudent(us *Student) {
 	}
 }
 
-//Respond to requests about users
+//Respond to HTTP Requests
 func (s *CougLink) UserRequest(w http.ResponseWriter, r *http.Request) {
 	dec := json.NewDecoder(r.Body)
 	switch r.Method {
-	case "GET":
+	case "GET": //GET requests get sent back a list of all users
 		log.Println("User info request!")
 		//TODO: check for body data to see if we should just send a given user
 
 		w.Write(s.userListData)
-	case "POST":
+	case "POST": //POST requests are for creating new users
 		//We need to somehow authenticate for this
 		log.Println("New User Request!")
 
@@ -95,7 +95,7 @@ func (s *CougLink) UserRequest(w http.ResponseWriter, r *http.Request) {
 
 		//Send newly recieved student off to the sync thread
 		s.newStudents <- Req.Value
-	case "PUT":
+	case "PUT": //PUT Requests are for updating existing users
 		//We need to somehow authenticate for this
 		log.Println("Update user request!")
 
