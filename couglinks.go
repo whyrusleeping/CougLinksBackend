@@ -34,6 +34,7 @@ func New() *CougLink {
 	return cl
 }
 
+//Handle New and Update requests here to avoid having to lock data
 func (s *CougLink) StartSyncRoutine() {
 	for {
 		select {
