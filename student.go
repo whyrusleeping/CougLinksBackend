@@ -1,10 +1,10 @@
 package main
 
 import (
-	"fmt"
 )
 
 type Student struct {
+	UUID string
 	Name string
 	Resume string
 	Skills string
@@ -12,6 +12,9 @@ type Student struct {
 	Minor string
 	Interests string
 	Email string
+
+	//Users auth token
+	token string
 }
 
 func NewStudent(name, resume, skills, major, minor, interests, email string) *Student {
