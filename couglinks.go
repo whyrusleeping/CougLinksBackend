@@ -72,6 +72,7 @@ func (s *CougLink) UpdateStudent(us *Student) {
 
 //Respond to HTTP Requests
 func (s *CougLink) UserRequest(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	dec := json.NewDecoder(r.Body)
 	switch r.Method {
 		case "GET": //GET requests get sent back a list of all users
