@@ -5,12 +5,15 @@ import (
 	"encoding/json"
 	"bytes"
 	"net/http"
+	"time"
 )
 
 func TestAPI(t *testing.T) {
 	go StartServer(":8080")
 
-	//Generate a bunch of random students and add them, request them back and validate everything
+	//Wait for server to startup
+	time.Sleep(time.Second / 4)
+
 	student := new(Student)
 	student.Name = "Test Jones"
 	student.Major = "Computer Science"
