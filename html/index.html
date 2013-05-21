@@ -6,46 +6,164 @@
 		<!-- Stylesheets -->
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/2.1.0/normalize.css" type="text/css" />
 		<link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
-		<link rel="stylesheet" href="stylesheets/general.css" type="text/css" />
+		<link href='http://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="../stylesheets/general.css" type="text/css" />
+		<style>
+			header {
+				padding:20px;
+				border-top:2px solid #981e32;
+				border-bottom:2px solid #981e32;
+				text-align: left;
+				margin-bottom:15px;
+				min-height:85px;
+
+			}
+			a {
+				text-decoration: none;
+				color:#fff;				
+			}
+			a:hover {
+				
+				color:#adadad;
+				text-decoration: none;
+			}
+			.anchor {
+				color:#7A7A7A;
+			}
+			.anchor:hover{
+				color:#7A7A7A;
+			}
+			h3{
+				padding:5px 15px;
+				font-size:20px;
+			}
+			header a > h1{
+				font-size:60px;
+				margin-left:35px;
+				font-family: 'Bubblegum Sans', cursive;
+				width:250px;
+				height:75px;
+				float:left;
+				color:#696969;
+				text-align: center;
+				vertical-align: middle;
+				transition: border-bottom .25s;
+				-webkit-transition: border-bottom .25s;
+			}
+			header a > h1:hover{
+				border-bottom:8px solid #696969;;
+				box-sizing:border-box;
+			}
+			.signup, .login {
+				background:#981e32;
+				height:75px;
+				float:left;
+				border-radius:20px;
+				width:225px;
+				padding:5px 0;
+				text-align:center;
+				margin-left:85px;
+			}
+			.signup span, .login span {
+				padding:25px;
+				color:#fff;
+				
+			}
+			
+			.intro h2{
+				padding:15px;
+				margin-left:-300px;
+			}
+			.intro p {
+				font-size:28px;
+				line-height:150%;
+				text-align: justify;
+
+			}
+
+			.home-content {
+				width:75%;
+				position: relative;
+				margin:0 auto;
+				text-align:justify;
+				text-align: center;
+				margin-bottom:50px;
+			}
+		</style>
 	</head>
 	<body>
-		<div class="container">
-			<nav class="nav-main">
-				<ul class="nav-list">
-					<li class="nav-item"><a href="#/">Home</a></li>
-					<li class="nav-item"><a href="#/register">Register</a></li>
-					<li class="nav-item"><a href="#">Services</a>
-						<ul>
-							<li><a href="#">Service 1</a></li>
-							<li><a href="#">Service 2</a></li>
-						</ul>
-					</li>
-					<li class="nav-item"><a href="#">Downloads</a>
-						<ul>
-							<li><a href="#">Download 1</a></li>
-							<li><a href="#">Download 2</a></li>
-							<li><a href="#">Download 3</a></li>
-						</ul>
-					</li>
-					<li class="nav-item"><a href="#">Support</a></li>
-					<li class="nav-item"><a href="#">Contact</a></li>
+			<div class="container">
+				<header>
+					<a href="#/" class="anchor"><h1>CougLinks</h1></a>
+					<section class="signup">
+						<a href="#/register"><h3>Sign-Up Now!</h3></a>
+					</section>
+					<section class="login">
+						<a href="#/login"><h3>Login Here</h3></a>
+					</section>
+				</header>
+				<nav class="nav-main">
+					<ul class="nav-list">
+						<li class="nav-item"><a href="#/home">Home</a></li>
+						<li class="nav-item"><a href="#/register">Register</a></li>
+						<li class="nav-item"><a href="#/students">Students</a>
+							<ul>
+								<li><a href="#">Service 1</a></li>
+								<li><a href="#">Service 2</a></li>
+							</ul>
+						</li>
+						<li class="nav-item"><a href="#">Projects</a>
+							<ul>
+								<li><a href="#">Download 1</a></li>
+								<li><a href="#">Download 2</a></li>
+								<li><a href="#">Download 3</a></li>
+							</ul>
+						</li>
+						<li class="nav-item"><a href="#">About</a></li>
+						<li class="nav-item"><a href="#">Contact</a></li>
+					</ul>
+				</nav>
+
+
+				<section id="viewport"></section>
+			</div>
+			<footer>
+				<nav class="nav-main-footer">
+				<ul class="nav-list-footer">
+					<li class="nav-item-footer"><a href="#/">Home</a></li>
+					<li class="nav-item-footer"><a href="#/students">Students</a></li>
+					<li class="nav-item-footer"><a href="#/register">Register</a></li>
+					<li class="nav-item-footer"><a href="#">Downloads</a></li>
+					<li class="nav-item-footer"><a href="#">Support</a></li>
+					<li class="nav-item-footer"><a href="#">Contact</a></li>
 				</ul>
 			</nav>
-			<section id="viewport"></section>
-			<footer>
 			</footer>
-		</div>
-		<section id="footer"></section>
+		<script type="text/template" id="homePageTemplate">
+			
+			<section class="intro home-content">
+			<h2>Welcome to CougLinks!</h2>
+				<p>A student built service created for all current students of Washington State University.  CougLink is meant to create opportunities for both students and potential employers by providing resum&#0232;s&#8217; and details about any projects students participated in during their college career.</p>
+			</section>
+			<section class="home-content">
+				<img src="../images/home_main.png" />
+			</section>
+			<section class="intro home-content">
+				<p>CougLinks brings together businesses and students in a way like never before. Students can create a personal profile which displays their accomplishments and contact information.  Businesses can then search for students or browse by major</p>
+			</section>
+
+		</script>
+	
 		<script type="text/template" id="createUserTemplate">
 			<form id="newUserForm">
 				<fieldset>
-					<legend>Create User</legend>
-
-					<label>First Name</label><input type="text" name="Name" />
-					<label>Last Name</label><input type="text" name="last_name" />
-					<label>Student ID</label><input type="text" name="UUID" />
-					<label>Email</label><input type="text" name="Email" />
-					<label>Password</label><input type="password" name="password" />
+					<legend>Fill out the form below to create your new account!</legend>
+					<span class="status"></span>
+					<label>First Name</label><input type="text" name="first_name" /><br /><br />
+					<label>Last Name</label><input type="text" name="last_name" /><br /><br />
+					<label>Student ID</label><input type="text" name="studentid" /><br /><br />
+					<label>Email</label><input type="text" name="email" /><br /><br />
+					<label>Password</label><input type="password" name="password" /><br /><br />
 					<label>Confirm Password</label><input type="password" name="conf-password" />
 				</fieldset>
 			</form>
@@ -54,8 +172,8 @@
 
 		<script type="text/template" id="listUsersTemplate">
 			<fieldset>
-			<legend>List Users</legend>
-			<label>Search</label><input type="text" id="searchBox" placeholder="e.g. Matt Hintzke" />
+			<legend>Search or browse students here!</legend>
+			<label>Search</label><input type="text" class="searchBar" placeholder="e.g. Matt Hintzke" />
 			<table>
 				<tr>
 					<th>First Name</th>
@@ -66,10 +184,10 @@
 				</tr>
 				<% _.each(users, function(user){ %>
 					<tr id="<%= user.get('token') %>">
-						<td><%= user.get('Name') %></td>
+						<td><%= user.get('first_name') %></td>
 						<td><%= user.get('last_name') %></td>
-						<td><%= user.get('UUID') %></td>
-						<td><%= user.get('Email') %></td>
+						<td><%= user.get('studentid') %></td>
+						<td><%= user.get('email') %></td>
 						
 					</tr>
 				<% }); %>
@@ -78,16 +196,16 @@
 		</script>
 
 		<!-- Javascript Libraries -->
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.min.js"/>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore.js"/>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone.js"/>
-		<script type="text/javascript" src="javascripts/md5.js"/>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone.js"></script>
+		<script type="text/javascript" src="../javascripts/md5.js"></script>
 
 		<!-- My Javscript -->
-		<script type="text/javascript" src="javascripts/util.js"/>
-		<script type="text/javascript" src="javascripts/views.js"/>
-		<script type="text/javascript" src="javascripts/models.js"/>
-		<script type="text/javascript" src="javascripts/routers.js"/>
-		<script type="text/javascript"/>
+		<script type="text/javascript" src="../javascripts/util.js"></script>
+		<script type="text/javascript" src="../javascripts/views.js"></script>
+		<script type="text/javascript" src="../javascripts/models.js"></script>
+		<script type="text/javascript" src="../javascripts/routers.js"></script>
+		<script type="text/javascript" ></script>
 	</body>
 </html>

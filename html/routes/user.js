@@ -15,10 +15,10 @@ db.once('open', function callback () {
 });
 
 var userSchema = mongoose.Schema({
-    first_name: String,
-    last_name: String,
-    studentid: String,
-    email: String,
+    FirstName: String,
+    LastName: String,
+    UUID: String,
+    Email: String,
     password: String,
     token: String
 });

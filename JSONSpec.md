@@ -4,12 +4,12 @@
 - FirstName
 - LastName
 - Resume
-- Skills
-- Interests
+- Skills (list of strings)
+- Interests (list of strings)
 - Email
 - UUID
 - Major
-- Minor
+- Minors (list of strings)
 
 ##Request Object
 ###For adding, deleting, and updating users

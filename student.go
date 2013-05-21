@@ -8,22 +8,22 @@ type Student struct {
 	FirstName string
 	LastName string
 	Resume string
-	Skills string
+	Skills []string
 	Major string
-	Minor string
-	Interests string
+	Minors []string
+	Interests []string
 	Email string
 
 	//Users auth token
 	token string
 }
 
-func NewStudent(fname, lname, resume, skills, major, minor, interests, email string) *Student {
+func NewStudent(fname, lname, resume, major, email string, minors, skills, interests []string) *Student {
 	s := new(Student)
 	s.FirstName = fname
 	s.LastName = lname
 	s.Major = major
-	s.Minor = minor
+	s.Minors = minors
 	s.Resume = resume
 	s.Skills = skills
 	s.Interests = interests
@@ -32,15 +32,16 @@ func NewStudent(fname, lname, resume, skills, major, minor, interests, email str
 }
 
 func (s *Student) Equal(o *Student) bool {
+	//TODO: compare skills, minors and interests
 	return s.FirstName == o.FirstName &&
 			s.LastName == o.LastName &&
 			s.Major == o.Major &&
-			s.Minor == o.Minor &&
 			s.Resume == o.Resume &&
-			s.Skills == o.Skills &&
-			s.Interests == o.Interests &&
 			s.Email == o.Email &&
-			s.UUID == o.UUID
+			s.UUID == o.UUID &&
+			len(s.Minors) == len(o.Minors) &&
+			len(s.Interests) == len(o.Interests) &&
+			len(s.Skills) == len(o.Skills)
 }
 
 //Update student with the non-blank values in 'us'
@@ -55,11 +56,11 @@ func (stu *Student) Update(us *Student) bool {
 		stu.Major = us.Major
 		change = true
 	}
-	if us.Minor != "" {
-		stu.Minor = us.Minor
+	if us.Minors != nil {
+		stu.Minors = us.Minors
 		change = true
 	}
-	if us.Interests != "" {
+	if us.Interests != nil {
 		stu.Interests = us.Interests
 		change = true
 	}
@@ -67,7 +68,7 @@ func (stu *Student) Update(us *Student) bool {
 		stu.Email = us.Email
 		change = true
 	}
-	if us.Skills != "" {
+	if us.Skills != nil {
 		stu.Skills = us.Skills
 		change = true
 	}

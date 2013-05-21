@@ -18,10 +18,6 @@ func main() {
 }
 
 /*
-To get a list of all users:
-
-Example Request to add a user:
-
 To update a users info:
 curl 127.0.0.1:8080/users -X PUT --data '{"Action":"UPDATE", "Token":"thisismytoken", "Value":{"UUID":"11229324","Name":"Jeromy","Resume":"http://jero.my/resume.md"}}'
 
