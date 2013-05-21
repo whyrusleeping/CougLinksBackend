@@ -30,6 +30,7 @@ func New() *CougLink {
 	cl.newStudents = make(chan *Student, 16)
 	cl.updateStudent = make(chan *Student, 16)
 	cl.studentsByUUID = make(map[string]*Student)
+	cl.userListData = []byte("[]")
 	go cl.StartSyncRoutine()
 	return cl
 }
