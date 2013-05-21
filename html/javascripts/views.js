@@ -1,3 +1,8 @@
+/////////////////////////////////////////////////////////////
+//
+//					Create User View
+//
+/////////////////////////////////////////////////////////////
 var CreateUserView = Backbone.View.extend({
 	events: {
 		'click .btn-register': 'createUser'
@@ -28,6 +33,11 @@ var CreateUserView = Backbone.View.extend({
 
 var createUserView = new CreateUserView({el: $('#viewport')});
 
+/////////////////////////////////////////////////////////////
+//
+//					List Users View
+//
+/////////////////////////////////////////////////////////////
 var ListUsersView = Backbone.View.extend({
 	events: {
 		'click .editBtn': 'editUser',
@@ -58,3 +68,22 @@ var ListUsersView = Backbone.View.extend({
 });
 
 var listUsersView = new ListUsersView({el: $('#viewport')});
+
+/////////////////////////////////////////////////////////////
+//
+//					Home Page View
+//
+/////////////////////////////////////////////////////////////
+
+var HomePageView = Backbone.View.extend({
+	events: {},
+	render: function(){
+		var template = _.template($('#homePageTemplate').html());
+
+		this.$el.html(template);
+
+		return this;
+	}
+});
+
+var homePageView = new HomePageView({el: $('#viewport')});

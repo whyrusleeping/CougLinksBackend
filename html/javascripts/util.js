@@ -3,6 +3,8 @@ $(document).ready(function(){
 		$(this).siblings().removeClass('activ');
 		$(this).addClass('activ');
 	});
+
+	//$('.status').text("Status: Here is a status");
 });
 
 $.fn.serializeObject = function()

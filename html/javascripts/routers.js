@@ -1,11 +1,24 @@
+/////////////////////////////////////////////////////////////
+//
+//					Main view routes
+//
+/////////////////////////////////////////////////////////////
+
 var AppRouter = Backbone.Router.extend({
 	routes: {
-		"": "listAll",
-		"register": "registerUser"
+		"": "goHome",
+		"register": "registerUser",
+		"students": "listAll",
+		"home": "goHome"
 	}
 });
 
 var appRouter = new AppRouter;
+
+appRouter.on('route:goHome', function(){
+	console.log("REDNER: goHome");
+	homePageView.render();
+});
 
 appRouter.on('route:listAll', function(){
 	console.log("RENDER: listAll");
