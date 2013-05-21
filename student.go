@@ -5,7 +5,8 @@ import (
 
 type Student struct {
 	UUID string
-	Name string
+	FirstName string
+	LastName string
 	Resume string
 	Skills string
 	Major string
@@ -17,9 +18,10 @@ type Student struct {
 	token string
 }
 
-func NewStudent(name, resume, skills, major, minor, interests, email string) *Student {
+func NewStudent(fname, lname, resume, skills, major, minor, interests, email string) *Student {
 	s := new(Student)
-	s.Name = name
+	s.FirstName = fname
+	s.LastName = lname
 	s.Major = major
 	s.Minor = minor
 	s.Resume = resume
@@ -30,7 +32,8 @@ func NewStudent(name, resume, skills, major, minor, interests, email string) *St
 }
 
 func (s *Student) Equal(o *Student) bool {
-	return s.Name == o.Name &&
+	return s.FirstName == o.FirstName &&
+			s.LastName == o.LastName &&
 			s.Major == o.Major &&
 			s.Minor == o.Minor &&
 			s.Resume == o.Resume &&

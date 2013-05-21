@@ -14,7 +14,7 @@ type RequestData struct {
 
 type CougLink struct {
 	students []*Student
-	studentsByName map[string]*Student
+	studentsByUUID map[string]*Student
 	userListData []byte //Precomputed JSON for user list requests `cache`
 	newStudents chan *Student
 	updateStudent chan *Student
@@ -27,9 +27,9 @@ type CougLink struct {
 //TODO: accept a location parameter or something for the db to be stored
 func New() *CougLink {
 	cl := new(CougLink)
-	cl.newStudents = make(chan *Student)
-	cl.updateStudent = make(chan *Student)
-	cl.studentsByName = make(map[string]*Student)
+	cl.newStudents = make(chan *Student, 16)
+	cl.updateStudent = make(chan *Student, 16)
+	cl.studentsByUUID = make(map[string]*Student)
 	go cl.StartSyncRoutine()
 	return cl
 }
@@ -39,12 +39,12 @@ func (s *CougLink) StartSyncRoutine() {
 	for {
 		select {
 		case ns := <-s.newStudents:
-			_,exists := s.studentsByName[ns.Name]
+			_,exists := s.studentsByUUID[ns.UUID]
 			if exists {
 				continue
 			}
 
-			s.studentsByName[ns.Name] = ns
+			s.studentsByUUID[ns.UUID] = ns
 			s.students = append(s.students, ns)
 
 			//TODO: Handle any errors here
@@ -56,7 +56,7 @@ func (s *CougLink) StartSyncRoutine() {
 }
 
 func (s *CougLink) UpdateStudent(us *Student) {
-	stu, ok := s.studentsByName[us.Name]
+	stu, ok := s.studentsByUUID[us.UUID]
 	if !ok {
 		log.Println("this is awkward.")
 		//Student doesnt actually exist somehow
@@ -73,12 +73,12 @@ func (s *CougLink) UpdateStudent(us *Student) {
 func (s *CougLink) UserRequest(w http.ResponseWriter, r *http.Request) {
 	dec := json.NewDecoder(r.Body)
 	switch r.Method {
-	case "GET": //GET requests get sent back a list of all users
+		case "GET": //GET requests get sent back a list of all users
 		log.Println("User info request!")
 		//TODO: check for body data to see if we should just send a given user
 
 		w.Write(s.userListData)
-	case "POST": //POST requests are for creating new users
+		case "POST": //POST requests are for creating new users
 		//We need to somehow authenticate for this
 		log.Println("New User Request!")
 
@@ -94,9 +94,14 @@ func (s *CougLink) UserRequest(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		//Send newly recieved student off to the sync thread
-		s.newStudents <- Req.Value
-	case "PUT": //PUT Requests are for updating existing users
+		switch Req.Action {
+		case "NEW":
+			//Send newly recieved student off to the sync thread
+			s.newStudents <- Req.Value
+		default:
+			log.Println("Invalid action: " + Req.Action)
+		}
+		case "PUT": //PUT Requests are for updating existing users
 		//We need to somehow authenticate for this
 		log.Println("Update user request!")
 
