@@ -21,14 +21,13 @@ func TestAPI(t *testing.T) {
 	student.Interests = "Cheesecake and Biking"
 
 	req := new(RequestData)
-	req.Action = "NEW"
 	req.Value = student
 
 	buf := new(bytes.Buffer)
 	enc := json.NewEncoder(buf)
 	enc.Encode(req)
 
-	_, err := http.Post("http://127.0.0.1:8080/users", "json", buf)
+	_, err := http.Post("http://127.0.0.1:8080/users", "application/json", buf)
 	if err != nil {
 		t.Fatal(err)
 	}

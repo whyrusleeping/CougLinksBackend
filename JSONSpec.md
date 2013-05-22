@@ -16,33 +16,32 @@
 //		User JSON Model
 //
 //////////////////////////////
-{
-	UUID: "123456789",
-	FirstName: "Matt",
-	LastName: "Hintzke",
-	Resume: "Path/To/Resume", // For now, resume will be a single uploaded file
-	Skills: [{name:"C/C++/C#", value:"Advanced"}, {name:"HTML/CSS3", value:"Intermediate"}],
-	Interests: ["Guitar", "Piano"],
-	Email: "matt.hintze@email.wsu.edu",
-	Major: "Computer Science",
-	Minors: ["Math", "Computer Engineering"],
-	Projects: ["134624978", "98726542", "719541376"]
-}
+    {
+    	UUID: "123456789",
+    	FirstName: "Matt",
+    	LastName: "Hintzke",
+    	Resume: "Path/To/Resume", // For now, resume will be a single uploaded file
+    	Skills: [{name:"C/C++/C#", value:"Advanced"}, {name:"HTML/CSS3", value:"Intermediate"}],
+    	Interests: ["Guitar", "Piano"],
+    	Email: "matt.hintze@email.wsu.edu",
+    	Major: "Computer Science",
+    	Minors: ["Math", "Computer Engineering"],
+    	Projects: ["134624978", "98726542", "719541376"]
+    }
 
 //////////////////////////////
 //
 //		Project JSON Model
 //
 //////////////////////////////
-{
-	UUID: "987654321",
-	Name: "CougLinks",
-	Description: "Blah blah blah",
-	OwnerID: "123456789",
-	Contributors: [OwnerID, "654321987", "46793158"],
-	Images: ["Path/to/image1", "Path/to/image2"],
-
-}
+    {
+    	UUID: "987654321",
+    	Name: "CougLinks",
+    	Description: "Blah blah blah",
+    	OwnerID: "123456789",
+    	Contributors: [OwnerID, "654321987", "46793158"],
+    	Images: ["Path/to/image1", "Path/to/image2"],
+    }
 
 ########### Actions ###########
 
@@ -62,25 +61,24 @@ Deleting a project # DELETE /projects/:id
 
 ALL REQUESTS THAT NEED AUTHENTICATION WILL NEED TO SEND AN OBJECT AND HAVE THE SERVER DO A CHECK FOR THE Token ATTRIBUTE.  WE CAN STORE A SESSION OBJECT ON THE SERVER THAT WILL BE USED TO VALIDATE A REQUEST. 
 
-/////////////////////////////
-//
-//	Authentication Object
-//
-/////////////////////////////
-{
-	Action: "UPDATE",
-	Token: "haldkfjoiewuvalksdjfoiujlkavj",
-	Body: {} // This object will either be a user or a project
-}
+    /////////////////////////////
+    //
+    //	Authentication Object
+    //
+    /////////////////////////////
+    {
+    	Token: "haldkfjoiewuvalksdjfoiujlkavj",
+    	Body: {} // This object will either be a user or a project
+    }
 
-/////////////////////////////
-//
-//		Session Object
-//
-/////////////////////////////
-{
-	// Not sure how to format this one yet
-}
+    /////////////////////////////
+    //
+    //		Session Object
+    //
+    /////////////////////////////
+    {
+        // Not sure how to format this one yet
+	}
 
 
 ##Request Object
