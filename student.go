@@ -3,22 +3,28 @@ package main
 import (
 )
 
+type Skill struct {
+	Name string
+	Value string
+}
+
 type Student struct {
 	UUID string
 	FirstName string
 	LastName string
 	Resume string
-	Skills []string
+	Skills []Skill
 	Major string
 	Minors []string
 	Interests []string
 	Email string
+	Projects []string
 
 	//Users auth token
 	token string
 }
 
-func NewStudent(fname, lname, resume, major, email string, minors, skills, interests []string) *Student {
+func NewStudent(fname, lname, resume, major, email string, minors, interests []string, skills []Skill) *Student {
 	s := new(Student)
 	s.FirstName = fname
 	s.LastName = lname

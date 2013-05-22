@@ -69,6 +69,14 @@ func (s *CougLink) UpdateStudent(us *Student) {
 	}
 }
 
+func (s *CougLink) SingleUserRequest(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	log.Println("single user request!")
+	user := r.URL.Path[7:]
+	log.Println(user)
+
+}
+
 //Respond to HTTP Requests
 func (s *CougLink) UserRequest(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
@@ -102,6 +110,7 @@ func (s *CougLink) UserRequest(w http.ResponseWriter, r *http.Request) {
 		var Req RequestData
 		err := dec.Decode(&Req)
 		if err != nil {
+			log.Println("Error in put handler")
 			log.Println(err)
 			return
 		}

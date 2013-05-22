@@ -9,6 +9,7 @@ func StartServer(host string) {
 
 	//Set up http listeners
 	http.HandleFunc("/users", cl.UserRequest)
+	http.HandleFunc("/users/", cl.SingleUserRequest)
 	http.Handle("/", http.FileServer(http.Dir("html")))
 	http.ListenAndServe(host, nil)
 }
