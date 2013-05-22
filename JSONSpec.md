@@ -11,6 +11,7 @@
 - Major
 - Minors (list of strings)
 
+
     //////////////////////////////
     //
     //		User JSON Model
@@ -43,6 +44,7 @@
     	Images: ["Path/to/image1", "Path/to/image2"],
     }
 
+
 ## Actions
 
 ###These do not require authentication
@@ -71,6 +73,7 @@ Deleting a project # DELETE /projects/:id
 
 
 ALL REQUESTS THAT NEED AUTHENTICATION WILL NEED TO SEND AN OBJECT AND HAVE THE SERVER DO A CHECK FOR THE Token ATTRIBUTE.  WE CAN STORE A SESSION OBJECT ON THE SERVER THAT WILL BE USED TO VALIDATE A REQUEST. 
+
 
     /////////////////////////////
     //
