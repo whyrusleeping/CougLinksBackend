@@ -24,8 +24,9 @@ type Student struct {
 	token string
 }
 
-func NewStudent(fname, lname, resume, major, email string, minors, interests []string, skills []Skill) *Student {
+func NewStudent(uuid, fname, lname, resume, major, email string, minors, interests []string, skills []Skill) *Student {
 	s := new(Student)
+	s.UUID = uuid
 	s.FirstName = fname
 	s.LastName = lname
 	s.Major = major

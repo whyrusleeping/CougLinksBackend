@@ -39,8 +39,10 @@ func (s *CougLink) StartSyncRoutine() {
 	for {
 		select {
 		case ns := <-s.newStudents:
+			log.Printf("New student: %s\n", ns.FirstName)
 			_,exists := s.studentsByUUID[ns.UUID]
 			if exists {
+				log.Println("already exists...")
 				continue
 			}
 
