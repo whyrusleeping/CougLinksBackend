@@ -11,11 +11,11 @@
 - Major
 - Minors (list of strings)
 
-//////////////////////////////
-//
-//		User JSON Model
-//
-//////////////////////////////
+    //////////////////////////////
+    //
+    //		User JSON Model
+    //
+    //////////////////////////////
     {
     	UUID: "123456789",
     	FirstName: "Matt",
@@ -29,11 +29,11 @@
     	Projects: ["134624978", "98726542", "719541376"]
     }
 
-//////////////////////////////
-//
-//		Project JSON Model
-//
-//////////////////////////////
+    //////////////////////////////
+    //
+    //		Project JSON Model
+    //
+    //////////////////////////////
     {
     	UUID: "987654321",
     	Name: "CougLinks",
@@ -43,21 +43,32 @@
     	Images: ["Path/to/image1", "Path/to/image2"],
     }
 
-########### Actions ###########
+## Actions
 
-// These do not require authentication
+###These do not require authentication
+
 Creating a user # POST /users
+
 Viewing all users # GET /users
+
 Viewing a single user # GET /users/:id
 
-// These DO require authentication
+
+
+###These DO require authentication
+
 Editing Profile # PUT /users/:id
+
 Deleting Profile # DELETE /users/:id
+
 Creating a project # POST /projects
 
-//These require authentication AND ownership of project
+
+###These require authentication AND ownership of project
 Editing a project # PUT /projects/:id
+
 Deleting a project # DELETE /projects/:id
+
 
 ALL REQUESTS THAT NEED AUTHENTICATION WILL NEED TO SEND AN OBJECT AND HAVE THE SERVER DO A CHECK FOR THE Token ATTRIBUTE.  WE CAN STORE A SESSION OBJECT ON THE SERVER THAT WILL BE USED TO VALIDATE A REQUEST. 
 
