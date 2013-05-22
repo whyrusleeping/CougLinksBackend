@@ -7,7 +7,6 @@ import (
 )
 
 type RequestData struct {
-	Action string
 	Token string
 	Value *Student
 }
@@ -95,14 +94,7 @@ func (s *CougLink) UserRequest(w http.ResponseWriter, r *http.Request) {
 			log.Println("Invalid JSON Object!")
 			return
 		}
-
-		switch Req.Action {
-		case "NEW":
-			//Send newly recieved student off to the sync thread
-			s.newStudents <- Req.Value
-		default:
-			log.Println("Invalid action: " + Req.Action)
-		}
+		s.newStudents <- Req.Value
 		case "PUT": //PUT Requests are for updating existing users
 		//We need to somehow authenticate for this
 		log.Println("Update user request!")
@@ -119,5 +111,7 @@ func (s *CougLink) UserRequest(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		s.updateStudent <- Req.Value
+	case "DELETE":
+		log.Println("DELETE not yet implemented.")
 	}
 }
