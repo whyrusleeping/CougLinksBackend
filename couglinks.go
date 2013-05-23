@@ -17,6 +17,7 @@ type CougLink struct {
 	userListData []byte //Precomputed JSON for user list requests `cache`
 	newStudents chan *Student
 	updateStudent chan *Student
+	deleteStudent chan *Student
 
 	//Admin auth token
 	token string
@@ -28,6 +29,7 @@ func New() *CougLink {
 	cl := new(CougLink)
 	cl.newStudents = make(chan *Student, 16)
 	cl.updateStudent = make(chan *Student, 16)
+	cl.deleteStudent = make(chan *Student, 16)
 	cl.studentsByUUID = make(map[string]*Student)
 	cl.userListData = []byte("[]")
 	go cl.StartSyncRoutine()
@@ -86,9 +88,8 @@ func (s *CougLink) UserRequest(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 		case "GET": //GET requests get sent back a list of all users
 		log.Println("User info request!")
-		//TODO: check for body data to see if we should just send a given user
-
 		w.Write(s.userListData)
+
 		case "POST": //POST requests are for creating new users
 		//We need to somehow authenticate for this
 		log.Println("New User Request!")
@@ -102,8 +103,10 @@ func (s *CougLink) UserRequest(w http.ResponseWriter, r *http.Request) {
 
 		if Req.Value == nil {
 			log.Println("Invalid JSON Object!")
+			w.WriteHeader(400)
 			return
 		}
+		w.WriteHeader(201)
 		s.newStudents <- Req.Value
 		case "PUT": //PUT Requests are for updating existing users
 		//We need to somehow authenticate for this
@@ -121,8 +124,9 @@ func (s *CougLink) UserRequest(w http.ResponseWriter, r *http.Request) {
 			log.Println("Invalid JSON Object!")
 			return
 		}
+		w.WriteHeader(200)
 		s.updateStudent <- Req.Value
 	case "DELETE":
-		log.Println("DELETE not yet implemented.")
+
 	}
 }
