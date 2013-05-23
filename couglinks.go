@@ -56,9 +56,12 @@ func (s *CougLink) StartSyncRoutine() {
 		case us := <-s.updateStudent:
 			s.UpdateStudent(us)
 		case ds := <-s.deleteStudent:
-			s.deleteStudent <- ds
+			s.DeleteStudent(ds)
 		}
 	}
+}
+
+func (s *CougLink) DeleteStudent(ds *Student) {
 }
 
 func (s *CougLink) UpdateStudent(us *Student) {
