@@ -16,6 +16,6 @@ func main() {
 	buf, _ := ioutil.ReadAll(resp.Body)
 	json.Unmarshal(buf, &users)
 	for _,s := range users {
-		fmt.Printf("%s %s %s\n", s.FirstName, s.Major, s.Email)
+		fmt.Printf("%s\t%s\t%s\t%s\n", s.FirstName, s.UUID, s.Major, s.Email)
 	}
 }

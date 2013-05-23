@@ -55,6 +55,8 @@ func (s *CougLink) StartSyncRoutine() {
 			s.userListData,_ = json.Marshal(s.students)
 		case us := <-s.updateStudent:
 			s.UpdateStudent(us)
+		case ds := <-s.deleteStudent:
+			s.deleteStudent <- ds
 		}
 	}
 }
@@ -128,5 +130,13 @@ func (s *CougLink) UserRequest(w http.ResponseWriter, r *http.Request) {
 		s.updateStudent <- Req.Value
 	case "DELETE":
 
+		var Req RequestData
+		err := dec.Decode(&Req)
+		if err != nil {
+			log.Println(err)
+			return
+		}
+		log.Printf("Attempting to delete: %s.\n",Req.Value.UUID)
+		s.deleteStudent <- Req.Value
 	}
 }
