@@ -17,6 +17,7 @@ type CougLink struct {
 	userListData []byte //Precomputed JSON for user list requests `cache`
 	newStudents chan *Student
 	updateStudent chan *Student
+	deleteStudent chan *Student
 
 	//Admin auth token
 	token string
@@ -28,6 +29,7 @@ func New() *CougLink {
 	cl := new(CougLink)
 	cl.newStudents = make(chan *Student, 16)
 	cl.updateStudent = make(chan *Student, 16)
+	cl.deleteStudent = make(chan *Student, 16)
 	cl.studentsByUUID = make(map[string]*Student)
 	cl.userListData = []byte("[]")
 	go cl.StartSyncRoutine()
@@ -53,6 +55,8 @@ func (s *CougLink) StartSyncRoutine() {
 			s.userListData,_ = json.Marshal(s.students)
 		case us := <-s.updateStudent:
 			s.UpdateStudent(us)
+		case ds := <-s.deleteStudent:
+			
 		}
 	}
 }
@@ -124,5 +128,13 @@ func (s *CougLink) UserRequest(w http.ResponseWriter, r *http.Request) {
 		s.updateStudent <- Req.Value
 	case "DELETE":
 		log.Println("DELETE not yet implemented.")
+		var Req RequestData
+		err := dec.Decode(&Req)
+		if err != nil {
+			log.Println(err)
+			return
+		}
+		log.Printf("Attempting to delete: %s.\n",Req.Value.UUID)
+		s.deleteStudent <- Req.Value
 	}
 }
