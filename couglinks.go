@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"bytes"
 	"encoding/json"
 	"log"
 )
@@ -12,7 +13,7 @@ type RequestData struct {
 }
 
 type CougLink struct {
-	students []*Student
+	//students []*Student
 	studentsByUUID map[string]*Student
 	userListData []byte //Precomputed JSON for user list requests `cache`
 	newStudents chan *Student
@@ -49,10 +50,8 @@ func (s *CougLink) StartSyncRoutine() {
 			}
 
 			s.studentsByUUID[ns.UUID] = ns
-			s.students = append(s.students, ns)
 
-			//TODO: Handle any errors here
-			s.userListData,_ = json.Marshal(s.students)
+			s.UpdateUserCache()
 		case us := <-s.updateStudent:
 			s.UpdateStudent(us)
 		case ds := <-s.deleteStudent:
@@ -62,6 +61,8 @@ func (s *CougLink) StartSyncRoutine() {
 }
 
 func (s *CougLink) DeleteStudent(ds *Student) {
+	delete(s.studentsByUUID, ds.UUID)
+	//TODO: remove it from the list, or get rid of the list entirely...
 }
 
 func (s *CougLink) UpdateStudent(us *Student) {
@@ -73,9 +74,26 @@ func (s *CougLink) UpdateStudent(us *Student) {
 		return
 	}
 	if stu.Update(us) {
-		//TODO: Handle any errors here
-		s.userListData,_ = json.Marshal(s.students)
+		s.UpdateUserCache()
 	}
+}
+
+func (s *CougLink) UpdateUserCache() {
+	//TODO: Preallocate a buffer ? maybe.
+	buf := new(bytes.Buffer)
+	buf.Write([]byte("["))
+	first := true
+	for _, s := range s.studentsByUUID {
+		if !first {
+			buf.Write([]byte(","))
+		} else {
+			first = false
+		}
+		js,_ := json.Marshal(s)
+		buf.Write(js)
+	}
+	buf.Write([]byte("]"))
+	s.userListData = buf.Bytes()
 }
 
 func (s *CougLink) SingleUserRequest(w http.ResponseWriter, r *http.Request) {
@@ -94,7 +112,6 @@ func (s *CougLink) UserRequest(w http.ResponseWriter, r *http.Request) {
 		case "GET": //GET requests get sent back a list of all users
 		log.Println("User info request!")
 		w.Write(s.userListData)
-
 		case "POST": //POST requests are for creating new users
 		//We need to somehow authenticate for this
 		log.Println("New User Request!")
@@ -132,7 +149,6 @@ func (s *CougLink) UserRequest(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(200)
 		s.updateStudent <- Req.Value
 	case "DELETE":
-
 		var Req RequestData
 		err := dec.Decode(&Req)
 		if err != nil {
