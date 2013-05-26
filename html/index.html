@@ -7,87 +7,86 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/2.1.0/normalize.css" type="text/css" />
 		<link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
 		<link href='http://fonts.googleapis.com/css?family=Bubblegum+Sans' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" href="../stylesheets/general.css" type="text/css" />
+		<link rel="stylesheet" href="stylesheets/general.css" type="text/css" />
 		<style>
-			header {
-				padding:20px;
-				border-top:2px solid #981e32;
-				border-bottom:2px solid #981e32;
+			.profile-wrap {
 				text-align: left;
-				margin-bottom:15px;
-				min-height:85px;
-
 			}
-			a {
-				text-decoration: none;
-				color:#fff;				
-			}
-			a:hover {
-				
-				color:#adadad;
-				text-decoration: none;
-			}
-			.anchor {
-				color:#7A7A7A;
-			}
-			.anchor:hover{
-				color:#7A7A7A;
-			}
-			h3{
-				padding:5px 15px;
-				font-size:20px;
-			}
-			header a > h1{
-				font-size:60px;
-				margin-left:35px;
-				font-family: 'Bubblegum Sans', cursive;
+			.profile-pic-wrap {
 				width:250px;
-				height:75px;
+				height:250px;
+				border: 3px dashed #5E5E5E;
+				box-sizing:border-box;
 				float:left;
-				color:#696969;
-				text-align: center;
-				vertical-align: middle;
-				transition: border-bottom .25s;
-				-webkit-transition: border-bottom .25s;
 			}
-			header a > h1:hover{
-				border-bottom:8px solid #696969;;
+			.profile-header {
+				min-height:250px;
+			}
+			.profile-info {
+				width:500px;
+				padding:0 25px;
+				float:left;
 				box-sizing:border-box;
 			}
-			.signup, .login {
-				background:#981e32;
-				height:75px;
+			.lbl, .val {
+				padding:6px;
+			}
+			.lbl {
+				font-weight:700;
 				float:left;
-				border-radius:20px;
-				width:225px;
-				padding:5px 0;
-				text-align:center;
-				margin-left:85px;
+				width:125px;
+
 			}
-			.signup span, .login span {
+			.val {
+				float:left;
+				display:block;
+				min-width:200px;
+
+			}
+			.bio {
+				display:inline-block;
+				width:650px;
+				padding-top:0;
+			}
+			.line-wrap {
+				width:100%;
+				height:32px;
+				display: inline-block;
+			}
+			.section {
 				padding:25px;
-				color:#fff;
-				
 			}
-			
-			.intro h2{
-				padding:15px;
-				margin-left:-300px;
+			p {
+				font-size: 16px;
 			}
-			.intro p {
-				font-size:28px;
-				line-height:150%;
-				text-align: justify;
-
+			.edu-classes, .edu-main, .emp-main {
+				list-style: none;
+				margin: 0;
 			}
-
-			.home-content {
-				width:75%;
-				position: relative;
-				margin:0 auto;
-				text-align:justify;
-				text-align: center;
-				margin-bottom:50px;
+			.edu-main, .emp-main {
+				font-weight: bold;
+				font-size: 16px;
+				margin-bottom: 25px;
+			}
+			.edu-main li, .emp-main li {
+				line-height: 125%;
+			}
+			.highlight {
+				background: #EBEBEB;
+			}
+			.profile-links-table a {
+				text-decoration: none;
+				color:#333333;
+				font-weight: 700;
+			}
+			.profile-links-table a:hover {
+				color:#000;
+			}
+			tr:nth-child(even){
+				background: #E5E5E5;
+			}
+			.edu-classes li:nth-child(even){
+				background: #EBEBEB
 			}
 		</style>
 	</head>
@@ -106,21 +105,10 @@
 					<ul class="nav-list">
 						<li class="nav-item"><a href="#/home">Home</a></li>
 						<li class="nav-item"><a href="#/register">Register</a></li>
-						<li class="nav-item"><a href="#/students">Students</a>
-							<ul>
-								<li><a href="#">Service 1</a></li>
-								<li><a href="#">Service 2</a></li>
-							</ul>
-						</li>
-						<li class="nav-item"><a href="#">Projects</a>
-							<ul>
-								<li><a href="#">Download 1</a></li>
-								<li><a href="#">Download 2</a></li>
-								<li><a href="#">Download 3</a></li>
-							</ul>
-						</li>
-						<li class="nav-item"><a href="#">About</a></li>
-						<li class="nav-item"><a href="#">Contact</a></li>
+						<li class="nav-item"><a href="#/students">Students</a></li>
+						<li class="nav-item"><a href="#/projects">Projects</a></li>
+						<li class="nav-item"><a href="#/profile">Profile</a></li>
+						<li class="nav-item"><a href="#/contact">Contact</a></li>
 					</ul>
 				</nav>
 
@@ -195,17 +183,130 @@
 			</fieldset>
 		</script>
 
+		<script type="text/template" id="profileviewTemplate">
+			<section class="profile-wrap">
+				<h2><%= user.FirstName %>&#39;s Profile</h2>
+				<section class="profile-header section">
+					<section class="profile-pic-wrap"><img class="profile-pic" height="250" width="250" src="<%= user.ProfilePicture %>"/></section>
+					<section class="profile-info">
+						<span class="lbl">First Name</span><span class="val">Matt</span>
+						<span class="lbl">Last Name</span><span class="val">Hintzke</span>
+						<span class="lbl">Email</span><span class="val">mhintzke.wsu@hotmail.com</span>
+						<span class="lbl">Major</span><span class="val">Computer Science</span>
+						<span class="lbl">Bio</span><span class="val bio">Founder of the Windows Phone Development Group and ex-Vice President of Delta Chi Fraternity.  I am the co-creator of the Windows 8 Store Application, TweetMaps, and am heading into my final year of my computer science career path.</span>
+					</section>
+				</section>
+				<section class="profile-objective section highlight">
+					<h3 class="section-title">Objective</h3>
+					<p>
+					I have a knack for the web and everything about it. I love to create web applications and develop web sites for friends and family just for fun. My plan is to find a small start-up that will allow me to use my skills as a C programmer as well as web designer to create content rich applications for clients
+					</p>
+				</section>
+				<section class="profile-edu section">
+					<h3 class="section-title">Education</h3>
+					<section class="edu-item">
+						<ul class="edu-main">
+							<li>Washington State University</li>
+							<li>Computer Science Bachelor of Science</li>
+							<li>GPA: 3.5</li>
+						</ul>
+						<ul class="edu-classes">
+							<li>CptS 121 - Intro to Program Design</li>
+							<li>CptS 122 - Data Structures</li>
+							<li>CptS 223 - Advanced Data Structures</li>
+							<li>CptS 260 - Intro to Computer Architecture</li>
+							<li>CptS 224 - Unix Programming Tools</li>
+							<li>CptS 317 - Finite Automata and Formal Languages</li>
+							<li>CptS 323 - Software Design</li>
+							<li>CptS 360 - Systems Programming</li>
+							<li>CptS 430 - Numerical Analysis</li>
+						</ul>
+					</section>
+				</section>
+				<section class="profile-skills section highlight">
+					<h3 class="section-title">Skills</h3>
+					<table>
+					<tr>
+						<th>Skill</th>
+						<th>Value</th>
+					</tr>
+					<tr>
+						<td>C/C++/C#</td>
+						<td>Advanced</td>
+					</tr>
+					<tr>
+						<td>Linux</td>
+						<td>Advanced</td>
+					</tr>
+					<tr>
+						<td>HTML/CSS3</td>
+						<td>Intermediate</td>
+					</tr>
+					</table>
+				</section>
+				<section class="profile-employment section">
+					<h3 class="section-title">Employment</h3>
+					<ul class="emp-main">
+						<li>May 2012 - August 2012: Web Application Developer</li>
+						<li>Company: IDD Aerospace</li>
+						<li>Redmond, Washington</li>
+					</ul>
+					<p style="margin-bottom:50px;">Working at IDD, I personally designed and implemented a system for storing and viewing data from a centralized MySQL database. Originally, IDD ran lighting tests using radiometers and spectrometers to ensure the requirements of each part are met. However, this data was never saved in any way once the test was done. This led to my design of a PHP, Javascript, and MySQL system that allowed data stored in an Excel spreadsheet to be translated to a database and then viewed using a PHP client on the browser. The client also allowed the user to fully manage the database tables in order to handle the need of any future data specifications.</p>
+					
+					<ul class="emp-main">
+						<li>May 2011 - August 2011: Mechanical Engineer Intern </li>
+						<li>Company: Coffman Engineers</li>
+						<li>Seattle, Washington</li>
+					</ul>
+						<p>As an intern at Coffman Engineers I worked along side colleagues to complete a contracting job at The Boeing Company in Everett where I was put to the task of mapping out the extensive steam pipe system that powers much of the equipment used by the assemblers. My daily tasks included drawing out steam lines and their corresponding loads throughout the Boeing plant, reviewing previously created CAD drawings for accuracy and consistency, and modeling HVAC load scenarios using computer software. This internship provided me the opportunity to work with a team to deliver quality work and consultation in a professional environment.</p>
+				</section>
+
+				<section class="profile-hobbies section highlight">
+					<h3 class="section-title">Hobbies</h3>
+					<p>By now, it is clear that I have a passion for the web. I spend much of my time learning new web application developing standards and design architectures. I have basic to intermediate experience using MVC frameworks such as NodeJS, BackboneJS, ExpressJS, and Meteor. Apart from programming, I love to play sports such as soccer and basketball and spend time fulfilling my passion for music by playing guitar and piano.</p>
+				</section>
+
+				<section class="profile-links section">
+					<h3 class="section-title">Links</h3>
+					<table class="profile-links-table">
+						<tr>
+							<th>Link</th>
+							<th>Description</th>
+						</tr>
+						
+						<tr>
+							<td><a href="http://www.daemondeveloper.com">DaemonDeveloper</a></td>
+							<td>My personal website</td>
+						</tr>
+						<tr>
+							<td><a href="https://www.google.com">Google</a></td>
+							<td>This is just Google</td>
+						</tr>
+						<tr>
+							<td><a href="http://www.wsu.edu">Wazzu</a></td>
+							<td>WSU Official Website</td>
+						</tr>
+					</table>
+				</section>
+
+				<section class="profile-projects section highlight">
+					<h3 class="section-title">Projects</h3>
+					<h4>We will implement a project section when we have the foundation of how projects are created and how we store them</h4>
+				</section>
+			</section>
+		</script>
+
 		<!-- Javascript Libraries -->
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone.js"></script>
-		<script type="text/javascript" src="../javascripts/md5.js"></script>
+		<script type="text/javascript" src="javascripts/md5.js"></script>
 
 		<!-- My Javscript -->
-		<script type="text/javascript" src="../javascripts/util.js"></script>
-		<script type="text/javascript" src="../javascripts/views.js"></script>
-		<script type="text/javascript" src="../javascripts/models.js"></script>
-		<script type="text/javascript" src="../javascripts/routers.js"></script>
+		<script type="text/javascript" src="javascripts/util.js"></script>
+		<script type="text/javascript" src="javascripts/views.js"></script>
+		<script type="text/javascript" src="javascripts/models.js"></script>
+		<script type="text/javascript" src="javascripts/routers.js"></script>
 		<script type="text/javascript" ></script>
 	</body>
 </html>
