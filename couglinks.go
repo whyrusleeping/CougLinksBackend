@@ -13,7 +13,6 @@ type RequestData struct {
 }
 
 type CougLink struct {
-	//students []*Student
 	studentsByUUID map[string]*Student
 	userListData []byte //Precomputed JSON for user list requests `cache`
 	newStudents chan *Student
@@ -56,13 +55,15 @@ func (s *CougLink) StartSyncRoutine() {
 			s.UpdateStudent(us)
 		case ds := <-s.deleteStudent:
 			s.DeleteStudent(ds)
+		//TODO: possibly add an extra channel attatched to a timer, to reload the cache every minute or so if needed
+		//That way, we can save on having to reload the cache after every change to the db
 		}
 	}
 }
 
 func (s *CougLink) DeleteStudent(ds *Student) {
 	delete(s.studentsByUUID, ds.UUID)
-	//TODO: remove it from the list, or get rid of the list entirely...
+	s.UpdateUserCache()
 }
 
 func (s *CougLink) UpdateStudent(us *Student) {
@@ -97,16 +98,25 @@ func (s *CougLink) UpdateUserCache() {
 }
 
 func (s *CougLink) SingleUserRequest(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
 	log.Println("single user request!")
 	user := r.URL.Path[7:]
 	log.Println(user)
-
+	switch r.Method {
+		case "GET":
+			u, ok := s.studentsByUUID[user]
+			if !ok {
+				w.WriteHeader(404)
+				return
+			}
+			rs,_ := json.Marshal(u)
+			w.Write(rs)
+		default:
+			log.Printf("Unsupported request method.\n")
+	}
 }
 
 //Respond to HTTP Requests
 func (s *CougLink) UserRequest(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
 	dec := json.NewDecoder(r.Body)
 	switch r.Method {
 		case "GET": //GET requests get sent back a list of all users
