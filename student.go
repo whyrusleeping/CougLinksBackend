@@ -54,6 +54,9 @@ func (s *Student) Equal(o *Student) bool {
 //Update student with the non-blank values in 'us'
 //return true if changes were made
 func (stu *Student) Update(us *Student) bool {
+	if stu.UUID != us.UUID {
+		panic("students must have same UUID to update!")
+	}
 	change := false
 	if us.Resume != "" {
 		stu.Resume = us.Resume

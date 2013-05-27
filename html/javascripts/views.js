@@ -1,5 +1,24 @@
 /////////////////////////////////////////////////////////////
 //
+//					Home Page View
+//
+/////////////////////////////////////////////////////////////
+
+var HomePageView = Backbone.View.extend({
+	events: {},
+	render: function(){
+		var template = _.template($('#homePageTemplate').html());
+
+		this.$el.html(template);
+
+		return this;
+	}
+});
+
+var homePageView = new HomePageView({el: $('#viewport')});
+
+/////////////////////////////////////////////////////////////
+//
 //					Create User View
 //
 /////////////////////////////////////////////////////////////
@@ -71,19 +90,32 @@ var listUsersView = new ListUsersView({el: $('#viewport')});
 
 /////////////////////////////////////////////////////////////
 //
-//					Home Page View
+//					Profile View
 //
 /////////////////////////////////////////////////////////////
 
-var HomePageView = Backbone.View.extend({
-	events: {},
+var ProfileView = Backbone.View.extend({
+	events:{},
 	render: function(){
-		var template = _.template($('#homePageTemplate').html());
+
+    	var user =  {
+    	UUID: "123456789",
+    	ProfilePicture: "images/default.jpg",
+    	FirstName: "Matt",
+    	LastName: "Hintzke",
+    	Resume: "Path/To/Resume", // For now, resume will be a single uploaded file
+    	Skills: [{name:"C/C++/C#", value:"Advanced"}, {name:"HTML/CSS3", value:"Intermediate"}],
+    	Interests: ["Guitar", "Piano"],
+    	Email: "matt.hintze@email.wsu.edu",
+    	Major: "Computer Science",
+    	Minors: ["Math", "Computer Engineering"],
+    	Projects: ["134624978", "98726542", "719541376"]
+    	};
+
+		var template = _.template($('#profileviewTemplate').html(), {user: user});
 
 		this.$el.html(template);
-
-		return this;
 	}
 });
 
-var homePageView = new HomePageView({el: $('#viewport')});
+var profileView = new ProfileView({el: $('#viewport')});
