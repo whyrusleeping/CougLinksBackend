@@ -1,7 +1,7 @@
 TOOLDIR=TestingTools
 
 all:
-	go build main.go student.go couglinks.go
+	go build -o couglink main.go student.go couglinks.go
 
 tools: adduser getusers adddummy deleteuser
 
