@@ -1,5 +1,6 @@
-
-
+/*
+   Base CSS
+*/
 html {
 	height:100%;
 	width:100%;
@@ -13,8 +14,7 @@ body {
 	padding:0;
 	margin:0;
 }
-h1, h2 ,h3 ,h4, h5, h6 {
-}
+
 .container, footer {
 	height:100%;
 	width:960px;
@@ -56,6 +56,17 @@ fieldset > label {
    margin:15px 5px;
   float:left;
 }
+#viewport {
+  text-align: center;
+}
+a {
+  text-decoration: none;
+  color:#fff;       
+}
+
+/*
+   Register CSS
+*/
 .status {
   padding:25px;
   width:100%;
@@ -72,6 +83,14 @@ legend {
   font-size:32px;
   padding:15px;
 }
+.btn-register {
+  padding:15px 35px;
+  font-size: 28px;
+}
+
+/*
+   Students CSS
+*/
 .searchBar {
   transition: width 1s;
   -webkit-transition:width 1s;
@@ -79,13 +98,11 @@ legend {
 .searchBar:focus {
   width:650px;
 }
-#viewport {
-  text-align: center;
-}
-.btn-register {
-  padding:15px 35px;
-  font-size: 28px;
-}
+
+
+/*
+    Navigation CSS
+*/
 .nav-main {
   position: relative;
   margin: 0px auto;
@@ -193,7 +210,9 @@ legend {
   background: #E3E3E3;
 }
 
-
+/*
+    Top Bar CSS
+*/
 header {
         padding:20px;
         border-top:2px solid #981e32;
@@ -202,10 +221,6 @@ header {
         margin-bottom:15px;
         min-height:85px;
 
-      }
-      a {
-        text-decoration: none;
-        color:#fff;       
       }
       header h3 {
         font-size: 22px;
@@ -221,9 +236,6 @@ header {
       }
       .anchor:hover{
         color:#7A7A7A;
-      }
-      .section-title{
-        font-size:24px;
       }
       header a > h1{
         font-size:60px;
@@ -276,4 +288,108 @@ header {
         text-align:justify;
         text-align: center;
         margin-bottom:50px;
+      }
+
+
+/* 
+    Resume CSS
+*/
+.section-title{
+  font-size:24px;
+}
+.section-title:hover {
+  cursor: pointer;
+}
+.profile-wrap {
+        text-align: left;
+      }
+      .profile-pic-wrap {
+        width:250px;
+        height:250px;
+        border: 3px dashed #5E5E5E;
+        box-sizing:border-box;
+        float:left;
+      }
+      .profile-header {
+        min-height:250px;
+        margin-bottom:50px;
+      }
+      .profile-info {
+        width:500px;
+        padding:0 25px;
+        float:left;
+        box-sizing:border-box;
+      }
+      .lbl, .val {
+        padding:6px;
+      }
+      .lbl {
+        font-weight:700;
+        float:left;
+        width:125px;
+
+      }
+      .val {
+        float:left;
+        display:block;
+        min-width:200px;
+
+      }
+      .bio {
+        display:inline-block;
+        width:650px;
+        padding-top:0;
+      }
+      .line-wrap {
+        width:100%;
+        height:32px;
+        display: inline-block;
+      }
+      .section {
+        padding:0 25px;
+        
+      } 
+      p {
+        font-size: 16px;
+      }
+      .edu-classes, .edu-main, .emp-main {
+        list-style: none;
+        margin: 0;
+      }
+      .edu-main, .emp-main {
+        font-weight: bold;
+        font-size: 16px;
+        margin-bottom: 25px;
+      }
+      .edu-main li, .emp-main li {
+        line-height: 125%;
+      }
+      .profile-links-table a {
+        text-decoration: none;
+        color:#333333;
+        font-weight: 700;
+      }
+      .profile-links-table a:hover {
+        color:#000;
+      }
+      tr:nth-child(even){
+        background: #E5E5E5;
+      }
+      .edu-classes li:nth-child(even){
+        background: #EBEBEB
+      }
+      .section-main {
+        /*max-height:0px;
+          transition: max-height 1s;
+          -webkit-transition: max-height 1s;*/
+          display:none;
+          float:left;
+          width:100%;
+      }
+      .resume {
+        box-shadow:2px 2px 15px 2px #CCCCCC inset;
+        overflow:hidden;
+      }
+      .resume:nth-child(even){
+        background: #EBEBEB;
       }
