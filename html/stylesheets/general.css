@@ -295,11 +295,12 @@ header {
     Resume CSS
 */
 .section-title{
+  padding:20px 0;
   font-size:24px;
+  width:95%;
+  float:left;
 }
-.section-title:hover {
-  cursor: pointer;
-}
+
 .profile-wrap {
         text-align: left;
       }
@@ -392,4 +393,15 @@ header {
       }
       .resume:nth-child(even){
         background: #EBEBEB;
+      }
+      .section-pulldown {
+        width:100%;
+      }
+      .section-pulldown:hover {
+        cursor: pointer;
+      }
+      .arrow {
+        width:35px;
+        padding:10px 0;
+        opacity: 0.25;
       }
