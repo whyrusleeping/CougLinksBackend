@@ -22,6 +22,9 @@ type Student struct {
 
 	//Users auth token
 	token string
+
+	//users password hash
+	password string
 }
 
 func NewStudent(uuid, fname, lname, resume, major, email string, minors, interests []string, skills []Skill) *Student {
@@ -35,6 +38,7 @@ func NewStudent(uuid, fname, lname, resume, major, email string, minors, interes
 	s.Skills = skills
 	s.Interests = interests
 	s.Email = email
+
 	return s
 }
 

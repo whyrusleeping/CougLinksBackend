@@ -2,9 +2,13 @@ package main
 
 import (
 	"net/http"
+	"crypto/rand"
+	"crypto/md5"
 	"bytes"
 	"encoding/json"
+	"encoding/base64"
 	"log"
+	"time"
 )
 
 type RequestData struct {
@@ -12,12 +16,21 @@ type RequestData struct {
 	Value *Student
 }
 
+type SessionData struct {
+	Token string
+	loginTime time.Time
+	ID string
+	Password string
+}
+
 type CougLink struct {
 	studentsByUUID map[string]*Student
 	userListData []byte //Precomputed JSON for user list requests `cache`
 	newStudents chan *Student
-	updateStudent chan *Student
-	deleteStudent chan *Student
+	updateCh chan *Student
+	deleteCh chan *Student
+
+	online map[string]*SessionData
 
 	//Admin auth token
 	token string
@@ -28,9 +41,10 @@ type CougLink struct {
 func New() *CougLink {
 	cl := new(CougLink)
 	cl.newStudents = make(chan *Student, 16)
-	cl.updateStudent = make(chan *Student, 16)
-	cl.deleteStudent = make(chan *Student, 16)
+	cl.updateCh = make(chan *Student, 16)
+	cl.deleteCh = make(chan *Student, 16)
 	cl.studentsByUUID = make(map[string]*Student)
+	cl.online = make(map[string]*SessionData)
 	cl.userListData = []byte("[]")
 	go cl.StartSyncRoutine()
 	return cl
@@ -47,21 +61,23 @@ func (s *CougLink) StartSyncRoutine() {
 				log.Println("already exists...")
 				continue
 			}
+			//TEMPORARY UNTIL REGISTRATION IS FINISHED!
+			ns.password = "PASSWORD"
 
 			s.studentsByUUID[ns.UUID] = ns
 
 			s.UpdateUserCache()
-		case us := <-s.updateStudent:
+		case us := <-s.updateCh:
 			s.UpdateStudent(us)
-		case ds := <-s.deleteStudent:
-			s.DeleteStudent(ds)
-		//TODO: possibly add an extra channel attatched to a timer, to reload the cache every minute or so if needed
-		//That way, we can save on having to reload the cache after every change to the db
+		case ds := <-s.deleteCh:
+			s.deleteStudent(ds)
+			//TODO: possibly add an extra channel attatched to a timer, to reload the cache every minute or so if needed
+			//That way, we can save on having to reload the cache after every change to the db
 		}
 	}
 }
 
-func (s *CougLink) DeleteStudent(ds *Student) {
+func (s *CougLink) deleteStudent(ds *Student) {
 	delete(s.studentsByUUID, ds.UUID)
 	s.UpdateUserCache()
 }
@@ -97,21 +113,85 @@ func (s *CougLink) UpdateUserCache() {
 	s.userListData = buf.Bytes()
 }
 
+func (s *CougLink) loginRequest(w http.ResponseWriter, r *http.Request) {
+	log.Println("Login request received!")
+	//do login
+	var ses SessionData
+	dec := json.NewDecoder(r.Body)
+	dec.Decode(&ses)
+	switch r.Method {
+	case "GET":
+		//returns whether or not a user is logged in
+		_, ok := s.studentsByUUID[ses.ID]
+		if ok {
+			w.Write([]byte("true"))
+		} else {
+			w.Write([]byte("false"))
+		}
+	case "POST":
+		//accepts a user ID and password and validates it for a login
+		u, ok := s.studentsByUUID[ses.ID]
+		if !ok {
+			w.WriteHeader(400)
+			return
+		}
+		if u.password == ses.Password {
+			log.Println("Sucessful login!")
+			ses.loginTime = time.Now()
+			tok := MakeSessionToken(ses.ID)
+			log.Println(tok)
+			u.token = tok
+			ses.Token = tok
+			ses.Password = ""
+			s.online[ses.ID] = &ses
+			log.Println(ses)
+			enc := json.NewEncoder(w)
+			enc.Encode(ses)
+		} else {
+			log.Println("Login failed...")
+			w.WriteHeader(400)
+		}
+	case "DELETE":
+		//this is a logout request, must validate tokens
+		u, ok := s.studentsByUUID[ses.ID]
+		if !ok {
+			w.WriteHeader(400)
+			return
+		}
+		if u.token == ses.Token {
+			delete(s.online, ses.ID)
+			w.Write([]byte("true"))
+		} else {
+			w.Write([]byte("false"))
+		}
+	}
+}
+
+func MakeSessionToken(ID string) string {
+	hsh := md5.New()
+	hsh.Write([]byte(ID))
+	salt := make([]byte, 32)
+	rand.Read(salt)
+	hsh.Write(salt)
+	final := hsh.Sum(nil)
+	return base64.StdEncoding.EncodeToString(final)
+}
+
 func (s *CougLink) SingleUserRequest(w http.ResponseWriter, r *http.Request) {
 	log.Println("single user request!")
 	user := r.URL.Path[7:]
 	log.Println(user)
 	switch r.Method {
-		case "GET":
-			u, ok := s.studentsByUUID[user]
-			if !ok {
-				w.WriteHeader(404)
-				return
-			}
-			rs,_ := json.Marshal(u)
-			w.Write(rs)
-		default:
-			log.Printf("Unsupported request method.\n")
+	case "GET":
+		u, ok := s.studentsByUUID[user]
+		if !ok {
+			w.WriteHeader(404)
+			return
+		}
+		rs,_ := json.Marshal(u)
+		w.Write(rs)
+	default:
+		log.Printf("Unsupported request method.\n")
 	}
 }
 
@@ -157,7 +237,7 @@ func (s *CougLink) UserRequest(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		w.WriteHeader(200)
-		s.updateStudent <- Req.Value
+		s.updateCh <- Req.Value
 	case "DELETE":
 		var Req RequestData
 		err := dec.Decode(&Req)
@@ -166,6 +246,6 @@ func (s *CougLink) UserRequest(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		log.Printf("Attempting to delete: %s.\n",Req.Value.UUID)
-		s.deleteStudent <- Req.Value
+		s.deleteCh <- Req.Value
 	}
 }
