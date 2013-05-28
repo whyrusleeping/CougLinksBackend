@@ -172,6 +172,7 @@ func MakeSessionToken(ID string) string {
 	hsh.Write([]byte(ID))
 	salt := make([]byte, 32)
 	rand.Read(salt)
+	hsh.Write([]byte(time.Now().String()))
 	hsh.Write(salt)
 	final := hsh.Sum(nil)
 	return base64.StdEncoding.EncodeToString(final)
