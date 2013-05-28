@@ -304,6 +304,9 @@ header {
 .profile-wrap {
         text-align: left;
       }
+      .profile-welcome {
+        padding:5px 0;
+      }
       .profile-pic-wrap {
         width:250px;
         height:250px;
@@ -357,6 +360,9 @@ header {
         list-style: none;
         margin: 0;
       }
+      .emp-item {
+        margin-bottom:25px;
+      }
       .edu-main, .emp-main {
         font-weight: bold;
         font-size: 16px;
@@ -399,6 +405,10 @@ header {
       }
       .section-pulldown:hover {
         cursor: pointer;
+
+      }
+      .section-pulldown:hover > .section-title {
+        color:#636363;
       }
       .arrow {
         width:35px;

@@ -46,7 +46,38 @@
     	Contributors: [OwnerID, "654321987", "46793158"],
     	Images: ["Path/to/image1", "Path/to/image2"],
     }
-
+    //////////////////////////////
+    //
+    //      Resume JSON Model
+    //
+    //////////////////////////////
+    {
+        ResumeID: "123456789",
+        ownerID: "987654321",
+        objective: "Description of objective",
+        education: [
+            {
+                school:"Washington State University",
+                degree:"Bachelor of Science",
+                gpa:"3.5",
+                classes: [{abbr: "CptS", number:"121", name:"Intro to Computer Science"}],
+            }
+        ],
+        skills: [{name: "C/C++/C#", value: "Advanced"}],
+        education: [
+            {
+                startDate:"May 2012",
+                endDate: "August 2012",
+                jobTitle: "Web Application Developer",
+                company: "IDD Aerospace",
+                city: "Redmond, Wa",
+                description: "Here is a description of the job"
+            }
+        ],
+        hobbies: ["Guitar", "Linux", "Snowboarding"], //Or should we make this a string?
+        links: [{name:"Google", href: "www.google.com", description: "This is google's website" }],
+        projects: ["02384209385", "00234583452", "0234247234702"]
+    }
 
 ## Actions
 

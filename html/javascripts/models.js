@@ -21,7 +21,7 @@ User Model Format
 }
 */
 var UserModel = Backbone.Model.extend({
-	idAttribute: "_id",
+	idAttribute: "UUID",
 	urlRoot: "/users"
 });
 

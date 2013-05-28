@@ -109,49 +109,46 @@
 
 		<script type="text/template" id="profileviewTemplate">
 			<section class="profile-wrap">
-				<h2><%= user.FirstName %>&#39;s Profile</h2>
+				<h1 class="profile-welcome"><%= user.FirstName %>&#39;s Profile</h1>
 				<section class="profile-header section">
 					<section class="profile-pic-wrap"><img class="profile-pic" height="250" width="250" src="<%= user.ProfilePicture %>"/></section>
 					<section class="profile-info">
-						<span class="lbl">First Name</span><span class="val">Matt</span>
-						<span class="lbl">Last Name</span><span class="val">Hintzke</span>
-						<span class="lbl">Email</span><span class="val">mhintzke.wsu@hotmail.com</span>
-						<span class="lbl">Major</span><span class="val">Computer Science</span>
-						<span class="lbl">Bio</span><span class="val bio">Founder of the Windows Phone Development Group and ex-Vice President of Delta Chi Fraternity.  I am the co-creator of the Windows 8 Store Application, TweetMaps, and am heading into my final year of my computer science career path.</span>
+						<span class="lbl">First Name</span><span class="val"><%= user.FirstName %></span>
+						<span class="lbl">Last Name</span><span class="val"><%= user.LastName %></span>
+						<span class="lbl">Email</span><span class="val"><%= user.Email %></span>
+						<span class="lbl">Major</span><span class="val"><%= user.Major %></span>
+						<span class="lbl">Bio</span><span class="val bio"><%= user.Bio %></span>
 					</section>
 				</section>
-				<h1>Resum&#0232;</h1>
+				<h2>Resum&#0232;</h2>
 				<section class="resume section">
 					<span class="section-pulldown"><span class="section-title">Objective</span><img class="arrow" src="images/uparrow.png" /></span> 
 					<section class="section-main">
-					<p>
-					I have a knack for the web and everything about it. I love to create web applications and develop web sites for friends and family just for fun. My plan is to find a small start-up that will allow me to use my skills as a C programmer as well as web designer to create content rich applications for clients
-					</p>
+					<p><%= user.Resume.objective %></p>
 					</section>
 				</section>
 				<section class="resume section">
 					<span class="section-pulldown"><span class="section-title">Education</span><img class="arrow" src="images/uparrow.png" /></span> 
 					<section class="section-main">
+					<% _.each(user.Resume.education, function(eduItem){ %>
 						<section class="edu-item">
-							<ul class="edu-main">
-								<li>Washington State University</li>
-								<li>Computer Science Bachelor of Science</li>
-								<li>GPA: 3.5</li>
-							</ul>
-							<ul class="edu-classes">
-								<li>CptS 121 - Intro to Program Design</li>
-								<li>CptS 122 - Data Structures</li>
-								<li>CptS 223 - Advanced Data Structures</li>
-								<li>CptS 260 - Intro to Computer Architecture</li>
-								<li>CptS 224 - Unix Programming Tools</li>
-								<li>CptS 317 - Finite Automata and Formal Languages</li>
-								<li>CptS 323 - Software Design</li>
-								<li>CptS 360 - Systems Programming</li>
-								<li>CptS 430 - Numerical Analysis</li>
-							</ul>
+						<ul class="edu-main">
+
+								<li><%= eduItem.school %></li>
+								<li><% print(user.Major + " " + eduItem.degree) %></li>
+								<li>GPA: <%= eduItem.gpa %></li>
+						</ul>
+						<ul class="edu-classes">
+							<% _.each(eduItem.classes, function(mclass){ %>
+								<li><% print(mclass.abbr+" "+mclass.number+" - "+mclass.name) %></li>
+							<% }) %>
+						</ul>
 						</section>
+					<% })	%>
+							
 					</section>
 				</section>
+
 				<section class="resume section">
 					<span class="section-pulldown"><span class="section-title">Skills</span><img class="arrow" src="images/uparrow.png" /></span> 
 					<section class="section-main">
@@ -160,44 +157,37 @@
 						<th>Skill</th>
 						<th>Value</th>
 					</tr>
-					<tr>
-						<td>C/C++/C#</td>
-						<td>Advanced</td>
-					</tr>
-					<tr>
-						<td>Linux</td>
-						<td>Advanced</td>
-					</tr>
-					<tr>
-						<td>HTML/CSS3</td>
-						<td>Intermediate</td>
-					</tr>
+					<% _.each(user.Resume.skills, function(skill){ %>
+						<tr>
+							<td><%= skill.name %></td>
+							<td><%= skill.value %></td>
+						</tr>
+					<% }) %>
 					</table>
 					</section>
 				</section>
 				<section class="resume section">
 					<span class="section-pulldown"><span class="section-title">Employment</span><img class="arrow" src="images/uparrow.png" /></span> 
 						<section class="section-main">
+
+						<% _.each(user.Resume.employment, function(empItem){ %>
+						<section class="emp-item">
 						<ul class="emp-main">
-							<li>May 2012 - August 2012: Web Application Developer</li>
-							<li>Company: IDD Aerospace</li>
-							<li>Redmond, Washington</li>
+							<li><% print(empItem.startDate+" - "+empItem.endDate+": "+empItem.jobTitle) %></li>
+							<li>Company: <%= empItem.company %></li>
+							<li><%= empItem.city %></li>
 						</ul>
-						<p style="margin-bottom:50px;">Working at IDD, I personally designed and implemented a system for storing and viewing data from a centralized MySQL database. Originally, IDD ran lighting tests using radiometers and spectrometers to ensure the requirements of each part are met. However, this data was never saved in any way once the test was done. This led to my design of a PHP, Javascript, and MySQL system that allowed data stored in an Excel spreadsheet to be translated to a database and then viewed using a PHP client on the browser. The client also allowed the user to fully manage the database tables in order to handle the need of any future data specifications.</p>
-						
-						<ul class="emp-main">
-							<li>May 2011 - August 2011: Mechanical Engineer Intern </li>
-							<li>Company: Coffman Engineers</li>
-							<li>Seattle, Washington</li>
-						</ul>
-							<p>As an intern at Coffman Engineers I worked along side colleagues to complete a contracting job at The Boeing Company in Everett where I was put to the task of mapping out the extensive steam pipe system that powers much of the equipment used by the assemblers. My daily tasks included drawing out steam lines and their corresponding loads throughout the Boeing plant, reviewing previously created CAD drawings for accuracy and consistency, and modeling HVAC load scenarios using computer software. This internship provided me the opportunity to work with a team to deliver quality work and consultation in a professional environment.</p>
+						<p><%= empItem.description %></p>
+						</section>
+						<% }) %>
+
 						</section>
 				</section>
 
 				<section class="resume section">
 					<span class="section-pulldown"><span class="section-title">Hobbies</span><img class="arrow" src="images/uparrow.png" /></span> 
 					<section class="section-main">
-					<p>By now, it is clear that I have a passion for the web. I spend much of my time learning new web application developing standards and design architectures. I have basic to intermediate experience using MVC frameworks such as NodeJS, BackboneJS, ExpressJS, and Meteor. Apart from programming, I love to play sports such as soccer and basketball and spend time fulfilling my passion for music by playing guitar and piano.</p>
+					<p><%= user.Resume.hobbies %></p>
 					</section>
 				</section>
 
@@ -209,19 +199,12 @@
 								<th>Link</th>
 								<th>Description</th>
 							</tr>
-							
-							<tr>
-								<td><a href="http://www.daemondeveloper.com">DaemonDeveloper</a></td>
-								<td>My personal website</td>
-							</tr>
-							<tr>
-								<td><a href="https://www.google.com">Google</a></td>
-								<td>This is just Google</td>
-							</tr>
-							<tr>
-								<td><a href="http://www.wsu.edu">Wazzu</a></td>
-								<td>WSU Official Website</td>
-							</tr>
+							<% _.each(user.Resume.links, function(links){ %>
+								<tr>
+									<td><a href="<%= links.href %>" target="_blank"><%= links.name %></a></td>
+									<td><%= links.description %></td>
+								</tr>
+							<% }) %>
 						</table>
 					</section>
 				</section>
@@ -249,28 +232,7 @@
 		<script type="text/javascript" >
 			$(document).ready(function(){
 
-			    $('.section-pulldown').on('click', function(){
-			        var el = $(this).next();
-			        var par = $(this).parent();
-			        var arrow = $(this).children('img');
-
-			        if(el.css('display') == 'none')
-			        {
-			        	el.css('padding-bottom', '50px');
-			        	arrow.attr('src', 'images/downarrow.png');
-			        	par.css('box-shadow', '0px 0px 15px 3px #A8A8A8 inset');
-			        	$(this).next().slideToggle(700);
-				        
-			        }else{
-			      		$(this).next().slideToggle(700, function(){
-			         	el.css('padding-bottom', '0px');
-			      		par.css('box-shadow', '2px 2px 15px 2px #CCCCCC inset');
-			      		arrow.attr('src', 'images/uparrow.png');
-			         });
-			           
-			        }
-
-			    });
+			   
 			});
 		</script>
 	</body>
