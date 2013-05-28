@@ -3,7 +3,7 @@ TOOLDIR=TestingTools
 all:
 	go build main.go student.go couglinks.go
 
-tools: adduser getusers adddummy deleteuser
+tools: adduser getusers adddummy deleteuser login
 
 adduser:
 	go build -o $(TOOLDIR)/adduser ToolAdduser.go student.go couglinks.go 
@@ -16,3 +16,6 @@ adddummy:
 
 deleteuser:
 	go build -o $(TOOLDIR)/delete ToolDeleteuser.go student.go couglinks.go
+
+login:
+	go build -o $(TOOLDIR)/login ToolLoginuser.go couglinks.go student.go
