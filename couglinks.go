@@ -97,6 +97,7 @@ func (s *CougLink) UpdateStudent(us *Student) {
 
 func (s *CougLink) UpdateUserCache() {
 	//TODO: Preallocate a buffer ? maybe.
+	// This is the most inefficient part
 	buf := new(bytes.Buffer)
 	buf.Write([]byte("["))
 	first := true
@@ -173,6 +174,7 @@ func MakeSessionToken(ID string) string {
 	hsh.Write([]byte(ID))
 	salt := make([]byte, 32)
 	rand.Read(salt)
+	hsh.Write([]byte(time.Now().String()))
 	hsh.Write(salt)
 	final := hsh.Sum(nil)
 	return base64.StdEncoding.EncodeToString(final)

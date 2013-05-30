@@ -19,7 +19,7 @@ func main() {
 	fmt.Scanln(&s.Email)
 	fmt.Println("UUID")
 	fmt.Scanln(&s.UUID)
-	
+
 	req := new(RequestData)
 	req.Value = s
 

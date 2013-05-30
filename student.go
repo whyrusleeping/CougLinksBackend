@@ -43,16 +43,14 @@ func NewStudent(uuid, fname, lname, resume, major, email string, minors, interes
 }
 
 func (s *Student) Equal(o *Student) bool {
-	//TODO: compare skills, minors and interests
 	return s.FirstName == o.FirstName &&
 			s.LastName == o.LastName &&
 			s.Major == o.Major &&
 			s.Resume == o.Resume &&
 			s.Email == o.Email &&
 			s.UUID == o.UUID &&
-			len(s.Minors) == len(o.Minors) &&
-			len(s.Interests) == len(o.Interests) &&
-			len(s.Skills) == len(o.Skills)
+			CompLists(s.Minors, o.Minors) &&
+			CompLists(s.Interests, o.Interests)
 }
 
 //Update student with the non-blank values in 'us'
@@ -87,4 +85,16 @@ func (stu *Student) Update(us *Student) bool {
 		change = true
 	}
 	return change
+}
+
+func CompLists(a, b []string) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i, v := range a {
+		if b[i] != v {
+			return false
+		}
+	}
+	return true
 }
