@@ -218,6 +218,20 @@
 			</section>
 		</script>
 
+		<script type="text/template" id="loginViewTemplate">
+			<form class="loginForm">
+				<fieldset>
+				<legend>Login</legend>
+				<label for="loginID">Student ID</label>
+				<input type="text" class="loginID" placeholder="12345678" />
+				<label for="loginPassword">Password</label>
+				<input type="password" class="loginPassword" />
+				</fieldset>
+				<a href="/lostandfound"><span class="lostandfound">I forgot my account info</span></a><br />
+				<button class="loginBtn btn btn-primary">Login</button>
+			</form>
+		</script>
+
 		<!-- Javascript Libraries -->
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore.js"></script>
@@ -230,10 +244,7 @@
 		<script type="text/javascript" src="javascripts/models.js"></script>
 		<script type="text/javascript" src="javascripts/routers.js"></script>
 		<script type="text/javascript" >
-			$(document).ready(function(){
-
-			   
-			});
+		
 		</script>
 	</body>
 </html>

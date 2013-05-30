@@ -130,6 +130,7 @@ func (s *CougLink) loginRequest(w http.ResponseWriter, r *http.Request) {
 		}
 	case "POST":
 		//accepts a user ID and password and validates it for a login
+		log.Println("POST Login")
 		u, ok := s.studentsByUUID[ses.ID]
 		if !ok {
 			w.WriteHeader(400)

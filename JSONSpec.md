@@ -1,18 +1,6 @@
 #JSON Object Specification
 
-##User Object (all strings unless otherwise noted)
-- FirstName
-- LastName
-- Resume
-- Skills (list of strings)
-- Interests (list of strings)
-- Email
-- UUID
-- Major
-- Minors (list of strings)
-
 ##Basic JSON Models
-
 
 
     //////////////////////////////
@@ -21,16 +9,19 @@
     //
     //////////////////////////////
     {
-    	UUID: "123456789",
-    	FirstName: "Matt",
-    	LastName: "Hintzke",
-    	Resume: "Path/To/Resume", // For now, resume will be a single uploaded file
-    	Skills: [{name:"C/C++/C#", value:"Advanced"}, {name:"HTML/CSS3", value:"Intermediate"}],
-    	Interests: ["Guitar", "Piano"],
-    	Email: "matt.hintze@email.wsu.edu",
-    	Major: "Computer Science",
-    	Minors: ["Math", "Computer Engineering"],
-    	Projects: ["134624978", "98726542", "719541376"]
+    	UUID: "123456789", // This is going to be the hash of studentID
+        ProfilePicture: "images/default.jpg",
+        FirstName: "Matt",
+        LastName: "Hintzke",
+        StudentID: "11086824",
+        Bio: "Founder of the Windows Phone Development Group and ex-Vice President of Delta Chi Fraternity.  I am the co-creator of the Windows 8 Store Application, TweetMaps, and am heading into my final year of my computer science career path.",
+        Email: "matt.hintze@email.wsu.edu",
+        Major: "Computer Science",
+        Minors: ["Math", "Computer Engineering"],
+        ResumeID: "resume-number", // Resume number is the ID of a resume Object
+        Resume: {}, // Resume-User relationship is going to be 1-1. This object is empty at initial registration
+        ProjectIDs: ["134624978", "98726542", "719541376"], // These are the ids of the project Objects that this student contributes to
+        Projects: [List of project objects will be created on front]
     }
 
     //////////////////////////////
@@ -39,20 +30,21 @@
     //
     //////////////////////////////
     {
-    	UUID: "987654321",
+    	UUID: "987654321", // Just set up some counter for this id
     	Name: "CougLinks",
     	Description: "Blah blah blah",
     	OwnerID: "123456789",
-    	Contributors: [OwnerID, "654321987", "46793158"],
-    	Images: ["Path/to/image1", "Path/to/image2"],
+    	Contributors: [OwnerID, "654321987", "46793158"], // This will be initialized as just [OwnerID]
+    	Images: ["Path/to/image1", "Path/to/image2"], // Each user will have their own storage spot
     }
+
     //////////////////////////////
     //
     //      Resume JSON Model
     //
     //////////////////////////////
     {
-        ResumeID: "123456789",
+        resumeID: "123456789",
         ownerID: "987654321",
         objective: "Description of objective",
         education: [
@@ -75,8 +67,7 @@
             }
         ],
         hobbies: ["Guitar", "Linux", "Snowboarding"], //Or should we make this a string?
-        links: [{name:"Google", href: "www.google.com", description: "This is google's website" }],
-        projects: ["02384209385", "00234583452", "0234247234702"]
+        links: [{name:"Google", href: "www.google.com", description: "This is google's website" }]
     }
 
 ## Actions
@@ -99,11 +90,18 @@ Deleting Profile # DELETE /users/:id
 
 Creating a project # POST /projects
 
+Creating a resume # POST /resume
 
-###These require authentication AND ownership of project
+
+###These require authentication AND ownership of project or resume
+
 Editing a project # PUT /projects/:id
 
 Deleting a project # DELETE /projects/:id
+
+Editing a resume # PUT /resume/:id
+
+Deleting resume # DELETE /resume/:id
 
 
 ALL REQUESTS THAT NEED AUTHENTICATION WILL NEED TO SEND AN OBJECT AND HAVE THE SERVER DO A CHECK FOR THE Token ATTRIBUTE.  WE CAN STORE A SESSION OBJECT ON THE SERVER THAT WILL BE USED TO VALIDATE A REQUEST. 
@@ -116,7 +114,7 @@ ALL REQUESTS THAT NEED AUTHENTICATION WILL NEED TO SEND AN OBJECT AND HAVE THE S
     /////////////////////////////
     {
     	Token: "haldkfjoiewuvalksdjfoiujlkavj",
-    	Body: {} // This object will either be a user or a project
+    	Value: {} // This object will either be a user, resume or a project
     }
 
     /////////////////////////////
@@ -131,6 +129,5 @@ ALL REQUESTS THAT NEED AUTHENTICATION WILL NEED TO SEND AN OBJECT AND HAVE THE S
 
 ##Request Object
 ###For adding, deleting, and updating users
-- Action : one of NEW, UPDATE, DELETE (string)
 - Token : Authentication token (string)
 - Value : A User Object

@@ -10,7 +10,8 @@ var AppRouter = Backbone.Router.extend({
 		"register": "registerUser",
 		"students": "listAll",
 		"home": "goHome",
-		"profile": "viewProfile"
+		"profile": "viewProfile",
+		"login": "loginUser"
 	}
 });
 
@@ -57,6 +58,11 @@ appRouter.on('route:viewProfile', function(){
 			        }
 
 			    });
+});
+
+appRouter.on('route:loginUser', function(){
+	console.log("RENDER: loginUser");
+	loginView.render();
 });
   // Start Backbone history a necessary step for bookmarkable URL's
 Backbone.history.start();

@@ -35,7 +35,7 @@ var CreateUserView = Backbone.View.extend({
 	},
 	createUser: function(){
 		var user = $('#newUserForm').serializeObject();
-		user.token = hex_md5(user.studentid);
+		user.token = hex_md5(user.ID);
 		user.password = hex_md5(user.password);
 		console.log(user);
 
@@ -103,10 +103,9 @@ var ProfileView = Backbone.View.extend({
     	ProfilePicture: "images/default.jpg",
     	FirstName: "Matt",
     	LastName: "Hintzke",
+        StudentID: "11086824",
     	Bio: "Founder of the Windows Phone Development Group and ex-Vice President of Delta Chi Fraternity.  I am the co-creator of the Windows 8 Store Application, TweetMaps, and am heading into my final year of my computer science career path.",
     	ResumeID: "resume-number", // For now, resume will be a single uploaded file
-    	Skills: [{name:"C/C++/C#", value:"Advanced"}, {name:"HTML/CSS3", value:"Intermediate"}],
-    	Interests: ["Guitar", "Piano"],
     	Email: "matt.hintze@email.wsu.edu",
     	Major: "Computer Science",
     	Minors: ["Math", "Computer Engineering"],
@@ -165,3 +164,25 @@ var ProfileView = Backbone.View.extend({
 });
 
 var profileView = new ProfileView({el: $('#viewport')});
+
+
+var LoginView = Backbone.View.extend({
+    events: {
+        'click .loginBtn': 'login'
+    },
+    render: function(){
+        var template = _.template($('#loginViewTemplate').html());
+
+        this.$el.html(template);
+
+        return this;
+    },
+    login: function(){
+        var creds = {};
+        creds.ID = $('.loginID').val();
+        creds.Password = hex_md5($('.loginPassword').val());
+        sendRequest("POST", "/login", creds);
+    }
+});
+
+var loginView = new LoginView({el: $('#viewport')});
