@@ -97,6 +97,7 @@ func (s *CougLink) UpdateStudent(us *Student) {
 
 func (s *CougLink) UpdateUserCache() {
 	//TODO: Preallocate a buffer ? maybe.
+	// This is the most inefficient part
 	buf := new(bytes.Buffer)
 	buf.Write([]byte("["))
 	first := true
