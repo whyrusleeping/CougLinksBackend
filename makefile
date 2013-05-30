@@ -17,7 +17,7 @@ getusers:
 
 adddummy:
 	cp $(TOOLDIR)/ToolAdddummy.go .
-	go build -o $(TOOLDIR)/dummy ToolAdddummy.go student.go couglinks.go
+	go build -o $(TOOLDIR)/dummy ToolAdddummy.go student.go couglinks.go utilities.go
 	rm ToolAdddummy.go
 
 deleteuser:
