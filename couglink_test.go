@@ -15,10 +15,10 @@ func TestAPI(t *testing.T) {
 	time.Sleep(time.Second / 4)
 
 	student := new(Student)
-	student.FirstName = "Test Jones"
+	student.Name = "Test Jones"
 	student.Major = "Computer Science"
-	student.Interests = []string{"Cheesecake","Biking"}
-
+	student.Minor = "Math"
+	student.Interests = "Cheesecake and Biking"
 
 	req := new(RequestData)
 	req.Value = student
@@ -51,4 +51,3 @@ func TestAPI(t *testing.T) {
 		t.Fatal("Reply student is not the same!")
 	}
 }
-
