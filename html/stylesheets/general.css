@@ -75,9 +75,13 @@ a {
   color:red;
   font-size:16px;
 }
-input[type="text"], input[type="password"] {
+input[type="text"], input[type="password"], textarea {
   float:left;
   margin:15px 5px;
+}
+textarea {
+  width:400px;
+  resize:none;
 }
 legend {
   font-size:32px;
@@ -379,9 +383,6 @@ header {
       .profile-links-table a:hover {
         color:#000;
       }
-      tr:nth-child(even){
-        background: #E5E5E5;
-      }
       .edu-classes li:nth-child(even){
         background: #EBEBEB
       }
@@ -431,3 +432,18 @@ header {
   padding:15px;
   font-size:80%;
 }
+
+/*
+    Support Page
+*/
+.sendQuestionBtn {
+  padding:10px 25px;
+}
+.supportTable td, .support th {
+  padding:15px;
+  border:none;
+}
+.supportTable input, .supportTable textarea {
+  margin:0;
+}
+

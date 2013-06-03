@@ -35,12 +35,17 @@ var CreateUserView = Backbone.View.extend({
 	},
 	createUser: function(){
 		var user = $('#newUserForm').serializeObject();
+
 		user.token = hex_md5(user.ID);
 		user.password = hex_md5(user.password);
 		console.log(user);
 
+        var obj = {
+            Token: user.token,
+            Value: user
+        };
 		delete user["conf-password"];
-		var newUser = new UserModel(user);
+		var newUser = new UserModel(obj);
 		newUser.save(null, {success : function(model, response){
 			//appRouter.navigate("/", {trigger: true});
 			listUsersView.render();
@@ -165,6 +170,11 @@ var ProfileView = Backbone.View.extend({
 
 var profileView = new ProfileView({el: $('#viewport')});
 
+/////////////////////////////////////////////////////////////
+//
+//                  Login View
+//
+/////////////////////////////////////////////////////////////
 
 var LoginView = Backbone.View.extend({
     events: {
@@ -186,3 +196,26 @@ var LoginView = Backbone.View.extend({
 });
 
 var loginView = new LoginView({el: $('#viewport')});
+
+/////////////////////////////////////////////////////////////
+//
+//                  Support View
+//
+/////////////////////////////////////////////////////////////
+
+var SupportView = Backbone.View.extend({
+    events: {
+        'click .sendQuestionBtn' : 'sendQ'
+    },
+    render: function(){
+        var template = _.template($('#supportViewTemplate').html());
+
+        this.$el.html(template);
+        return this;
+    },
+    sendQ: function(){
+
+    }
+});
+
+var supportView = new SupportView({el : $('#viewport')});

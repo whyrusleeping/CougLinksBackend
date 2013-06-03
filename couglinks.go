@@ -63,7 +63,7 @@ func (s *CougLink) StartSyncRoutine() {
 			}
 			//TEMPORARY UNTIL REGISTRATION IS FINISHED!
 			ns.password = "PASSWORD"
-
+			log.Println(ns)
 			s.studentsByUUID[ns.UUID] = ns
 
 			s.UpdateUserCache()
@@ -130,12 +130,16 @@ func (s *CougLink) loginRequest(w http.ResponseWriter, r *http.Request) {
 		}
 	case "POST":
 		//accepts a user ID and password and validates it for a login
-		log.Println("POST Login")
+		log.Println("POST Loginsss")
 		u, ok := s.studentsByUUID[ses.ID]
 		if !ok {
+			log.Println("Error")
 			w.WriteHeader(400)
 			return
 		}
+		log.Println("Before")
+		log.Println(u)
+		log.Println("After")
 		if u.password == ses.Password {
 			log.Println("Sucessful login!")
 			ses.loginTime = time.Now()
@@ -221,6 +225,7 @@ func (s *CougLink) UserRequest(w http.ResponseWriter, r *http.Request) {
 		}
 		w.WriteHeader(201)
 		s.newStudents <- Req.Value
+		log.Println("Successfully saved Student")
 		case "PUT": //PUT Requests are for updating existing users
 		//We need to somehow authenticate for this
 		log.Println("Update user request!")

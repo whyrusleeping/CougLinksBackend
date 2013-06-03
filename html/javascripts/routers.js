@@ -11,7 +11,8 @@ var AppRouter = Backbone.Router.extend({
 		"students": "listAll",
 		"home": "goHome",
 		"profile": "viewProfile",
-		"login": "loginUser"
+		"login": "loginUser",
+		"support": "support"
 	}
 });
 
@@ -63,6 +64,11 @@ appRouter.on('route:viewProfile', function(){
 appRouter.on('route:loginUser', function(){
 	console.log("RENDER: loginUser");
 	loginView.render();
+});
+
+appRouter.on('route:support', function(){
+	console.log("RENDER: support");
+	supportView.render();
 });
   // Start Backbone history a necessary step for bookmarkable URL's
 Backbone.history.start();
